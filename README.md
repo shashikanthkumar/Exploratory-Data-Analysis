@@ -1,15 +1,355 @@
-This study investigates the complex relationship between students' academic 
-performance and their socioeconomic status (SES) and classroom behavior using 
-Python for data analysis. The dataset comprises various indicators, including 
-family income, parental education levels, and occupation types to represent SES, 
-and attendance records, participation levels, and disciplinary actions to assess 
-classroom behavior.
-Employing Python's robust data analysis libraries such as pandas, numpy, and 
-scikit-learn, we conduct extensive statistical analyses and apply machine learning 
-models to uncover patterns and correlations. Our results demonstrate a significant 
-influence of socioeconomic factors on academic outcomes, with notable 
-performance disparities associated with income levels and parental education. 
-Furthermore, we find that classroom behavior significantly mediates academic 
-performance, where positive behaviors correlate with higher achievement levels. 
-Interestingly, students from higher SES backgrounds exhibit more favorable 
-classroom behaviors, further boosting their academic success.
+# 📊 Student Performance Data Analysis
+
+An exploratory data analysis project focused on understanding **student academic performance** and its relationship with demographic, family, lifestyle, and educational factors.
+
+The analysis is performed using **Python, Pandas, Matplotlib, and Seaborn**.
+
+---
+
+## 📌 Project Overview
+
+This project explores a student performance dataset containing information about:
+
+* Gender
+* Ethnic group
+* Parent's education
+* Lunch type
+* Test preparation
+* Parent's marital status
+* Sports participation
+* First-child status
+* Number of siblings
+* Transportation method
+* Weekly study hours
+* Math score
+* Reading score
+* Writing score
+
+The main objective is to understand patterns in student scores and explore how different factors relate to academic performance.
+
+---
+
+## 🗂️ Dataset
+
+The dataset contains **30,641 student records** and **15 columns** before preprocessing.
+
+The three main academic performance variables are:
+
+* `MathScore`
+* `ReadingScore`
+* `WritingScore`
+
+The original dataset also contains an `Unnamed: 0` column, which was removed during preprocessing.
+
+---
+
+## 🛠️ Technologies Used
+
+* **Python**
+* **Pandas** - Data loading, cleaning, grouping and analysis
+* **NumPy** - Numerical operations
+* **Matplotlib** - Data visualization
+* **Seaborn** - Statistical visualization
+* **Jupyter Notebook** - Development environment
+
+---
+
+## 🔍 Data Analysis Workflow
+
+### 1. Import Libraries
+
+The project uses Pandas, NumPy, Matplotlib and Seaborn for data analysis and visualization.
+
+### 2. Load the Dataset
+
+```python
+df = pd.read_csv("advanced data.csv")
+print(df.head())
+```
+
+### 3. Understand the Dataset
+
+Basic statistical and structural information was examined using:
+
+```python
+df.describe()
+df.info()
+```
+
+The dataset contains numerical and categorical variables, with some missing values across several columns.
+
+### 4. Handle Unnecessary Columns
+
+The `Unnamed: 0` column was removed because it represents an index rather than a meaningful analytical feature.
+
+```python
+df = df.drop("Unnamed: 0", axis=1)
+```
+
+### 5. Missing Value Analysis
+
+Missing values were identified using:
+
+```python
+df.isnull().sum()
+```
+
+Missing values were present in variables including:
+
+* `EthnicGroup`
+* `ParentEduc`
+* `TestPrep`
+* `ParentMaritalStatus`
+* `PracticeSport`
+* `IsFirstChild`
+* `NrSiblings`
+* `TransportMeans`
+* `WklyStudyHours`
+
+---
+
+## 📈 Exploratory Analysis
+
+### Gender Distribution
+
+A count plot was used to examine the distribution of students by gender.
+
+```python
+sns.countplot(data=df, x="Gender")
+plt.show()
+```
+
+### First Child Distribution
+
+The `IsFirstChild` variable was analyzed using a count plot.
+
+```python
+sns.countplot(data=df, x="IsFirstChild")
+plt.show()
+```
+
+### Parent Marital Status
+
+The distribution of students according to their parent's marital status was visualized.
+
+```python
+sns.countplot(data=df, x="ParentMaritalStatus")
+plt.show()
+```
+
+### Sports Participation
+
+Student participation in sports was examined using count plots.
+
+```python
+sns.countplot(data=df, x="PracticeSport")
+plt.show()
+```
+
+Bar labels were also added to display category counts.
+
+---
+
+## 🎓 Parent Education vs Student Performance
+
+The relationship between parent's education level and student scores was explored by calculating the mean Math, Reading and Writing scores for each category.
+
+```python
+gb = df.groupby("ParentEduc").agg({
+    "MathScore": "mean",
+    "ReadingScore": "mean",
+    "WritingScore": "mean"
+})
+```
+
+### Average Scores by Parent Education
+
+| Parent Education   |  Math | Reading | Writing |
+| ------------------ | ----: | ------: | ------: |
+| Associate's degree | 68.37 |   71.12 |   70.30 |
+| Bachelor's degree  | 70.47 |   73.06 |   73.33 |
+| High school        | 64.44 |   67.21 |   65.42 |
+| Master's degree    | 72.34 |   75.83 |   76.36 |
+| Some college       | 66.39 |   69.18 |   68.50 |
+| Some high school   | 62.58 |   65.51 |   63.63 |
+
+A heatmap was created to make the differences between the groups easier to compare.
+
+```python
+sns.heatmap(gb, annot=True)
+plt.title("Relationship between parent's education status and students score")
+plt.show()
+```
+
+### Observation
+
+Students whose parents have higher levels of education generally show higher average scores across Math, Reading and Writing in this dataset.
+
+---
+
+## 👨‍👩‍👧 Parent Marital Status
+
+The project also explores student scores based on parent's marital status.
+
+```python
+gb1 = df.groupby("ParentMaritalStatus").agg({
+    "MathScore": "mean",
+    "ReadingScore": "mean",
+    "WritingScore": "mean"
+})
+```
+
+A heatmap was used to visualize the resulting grouped data.
+
+The analysis notes that **parent marital status does not appear to have a major impact on student scores** based on the exploration performed.
+
+---
+
+## 📦 Score Distribution
+
+Box plots were created for the three academic scores:
+
+### Reading Score
+
+```python
+sns.boxplot(data=df, x="ReadingScore")
+plt.show()
+```
+
+### Writing Score
+
+```python
+sns.boxplot(data=df, x="WritingScore")
+plt.show()
+```
+
+### Math Score
+
+```python
+sns.boxplot(data=df, x="MathScore")
+plt.show()
+```
+
+These visualizations help inspect the distribution, spread and potential outliers in student scores.
+
+---
+
+## 🌍 Ethnic Group Analysis
+
+The unique ethnic groups were examined using:
+
+```python
+df["EthnicGroup"].unique()
+```
+
+The dataset contains:
+
+* Group A
+* Group B
+* Group C
+* Group D
+* Group E
+
+The analysis also counted students belonging to different ethnic groups and created a pie chart for selected groups.
+
+---
+
+## 📊 Key Findings
+
+Based on the exploratory analysis:
+
+1. **Parent education shows a noticeable relationship with student performance.**
+2. Students with parents holding a **master's degree have the highest average scores** among the parent-education categories examined.
+3. Students whose parents have **some high school education have the lowest average scores** among the categories examined.
+4. Parent marital status did not appear to show a major relationship with student scores in this analysis.
+5. The dataset contains missing values across several demographic and background variables.
+6. Math, Reading and Writing scores can be explored independently using statistical summaries and box plots.
+
+> **Note:** These findings describe patterns in the dataset. They do not establish causation.
+
+---
+
+## 📁 Project Structure
+
+```text
+student-performance-analysis/
+│
+├── advanced data.csv
+├── analysis.ipynb
+├── README.md
+└── images/
+    ├── gender_distribution.png
+    ├── parent_education_heatmap.png
+    ├── score_distribution.png
+    └── ethnic_group_distribution.png
+```
+
+---
+
+## 🚀 How to Run
+
+### 1. Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd student-performance-analysis
+```
+
+### 2. Install dependencies
+
+```bash
+pip install pandas numpy matplotlib seaborn jupyter
+```
+
+### 3. Start Jupyter Notebook
+
+```bash
+jupyter notebook
+```
+
+Open the notebook and run the cells to reproduce the analysis.
+
+---
+
+## 🎯 Future Improvements
+
+Possible improvements to this project include:
+
+* More systematic missing-value treatment
+* Correlation analysis between numerical variables
+* Analysis of test preparation and academic performance
+* Study-hours vs score analysis
+* Gender vs subject performance analysis
+* Ethnic-group performance comparison
+* Interactive dashboards using **Power BI** or **Plotly**
+* Statistical hypothesis testing
+* Predictive modeling for student scores
+
+---
+
+## 📚 Skills Demonstrated
+
+This project demonstrates practical experience with:
+
+* Data loading
+* Data inspection
+* Data cleaning
+* Missing-value identification
+* GroupBy operations
+* Aggregation
+* Exploratory Data Analysis
+* Statistical summaries
+* Data visualization
+* Heatmaps
+* Box plots
+* Count plots
+* Basic analytical interpretation
+
+---
+
+## 👤 Author
+
+**Shashikanth Kumar**
+
+B.Tech Computer Science & Engineering
+MSc Data Science & Business Analytics
