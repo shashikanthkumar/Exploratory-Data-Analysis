@@ -351,5 +351,3 @@ This project demonstrates practical experience with:
 
 **Shashikanth Kumar**
 
-B.Tech Computer Science & Engineering
-MSc Data Science & Business Analytics
